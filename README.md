@@ -1,76 +1,42 @@
-[![progress-banner](https://backend.codecrafters.io/progress/sqlite/0cac412f-21ca-49dc-b5bb-67c4c8939722)](https://app.codecrafters.io/users/saad-elabboubi?r=2qF)
+# SQLite File Reader from Scratch
 
-This is a starting point for Python solutions to the
-["Build Your Own SQLite" Challenge](https://codecrafters.io/challenges/sqlite).
+C++20 implementation of the CodeCrafters "Build Your Own SQLite" challenge.
 
-In this challenge, you'll build a barebones SQLite implementation that supports
-basic SQL queries like `SELECT`. Along the way we'll learn about
-[SQLite's file format](https://www.sqlite.org/fileformat.html), how indexed data
-is
-[stored in B-trees](https://jvns.ca/blog/2014/10/02/how-does-sqlite-work-part-2-btrees/)
-and more.
+The project focuses on SQLite storage internals rather than using SQLite as a
+library. It reads SQLite database files directly and currently supports the
+early challenge stages around database metadata.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+## What it covers
 
-# Passing the first stage
+- Binary parsing of SQLite database files
+- SQLite database header fields
+- Page-size parsing
+- B-tree page metadata
+- Table count extraction from the schema page
+- A small command-line interface compatible with the CodeCrafters challenge
 
-The entry point for your SQLite implementation is in `app/main.py`. Study and
-uncomment the relevant code, and then run the command below to execute the tests
-on our servers:
+## Run locally
 
 ```sh
-codecrafters submit
+./your_program.sh sample.db .dbinfo
 ```
 
-Time to move on to the next stage!
+Expected output:
 
-# Stage 2 & beyond
+```text
+database page size: 4096
+number of tables: 3
+```
 
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `uv` installed locally
-1. Run `./your_program.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
-   output will be streamed to your terminal.
-
-# Sample Databases
-
-To make it easy to test queries locally, we've added a sample database in the
-root of this repository: `sample.db`.
-
-This contains two tables: `apples` & `oranges`. You can use this to test your
-implementation for the first 6 stages.
-
-You can explore this database by running queries against it like this:
+## Build manually
 
 ```sh
-$ sqlite3 sample.db "select id, name from apples"
-1|Granny Smith
-2|Fuji
-3|Honeycrisp
-4|Golden Delicious
+cmake -B build -S .
+cmake --build build
+./build/sqlite sample.db .dbinfo
 ```
 
-There are two other databases that you can use:
+## Notes
 
-1. `superheroes.db`:
-   - This is a small version of the test database used in the table-scan stage.
-   - It contains one table: `superheroes`.
-   - It is ~1MB in size.
-1. `companies.db`:
-   - This is a small version of the test database used in the index-scan stage.
-   - It contains one table: `companies`, and one index: `idx_companies_country`
-   - It is ~7MB in size.
-
-These aren't included in the repository because they're large in size. You can
-download them by running this script:
-
-```sh
-./download_sample_databases.sh
-```
-
-If the script doesn't work for some reason, you can download the databases
-directly from
-[codecrafters-io/sample-sqlite-databases](https://github.com/codecrafters-io/sample-sqlite-databases).
+This repository was originally generated from the CodeCrafters SQLite challenge
+template and then implemented in C++20 as a systems/database-internals project.
